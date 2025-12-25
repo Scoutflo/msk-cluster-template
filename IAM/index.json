@@ -1,0 +1,203 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Sid": "MSKClusterManagement",
+        "Effect": "Allow",
+        "Action": [
+          "kafka:CreateCluster",
+          "kafka:DescribeCluster",
+          "kafka:DescribeClusterV2",
+          "kafka:ListClusters",
+          "kafka:UpdateBrokerStorage",
+          "kafka:UpdateBrokerCount",
+          "kafka:UpdateConfiguration",
+          "kafka:UpdateMonitoring",
+          "kafka:UpdateSecurity",
+          "kafka:UpdateConnectivity",
+          "kafka:GetBootstrapBrokers",
+          "kafka:TagResource",
+          "kafka:UntagResource",
+          "kafka:ListTagsForResource",
+          "kafka:DeleteCluster"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "MSKConfigurationManagement",
+        "Effect": "Allow",
+        "Action": [
+          "kafka:CreateConfiguration",
+          "kafka:DescribeConfiguration",
+          "kafka:DescribeConfigurationRevision",
+          "kafka:ListConfigurations",
+          "kafka:ListConfigurationRevisions",
+          "kafka:DeleteConfiguration"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "MSKVPCConnectionManagement",
+        "Effect": "Allow",
+        "Action": [
+          "kafka:CreateVpcConnection",
+          "kafka:DescribeVpcConnection",
+          "kafka:ListVpcConnections",
+          "kafka:DeleteVpcConnection"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "MSKClusterPolicyManagement",
+        "Effect": "Allow",
+        "Action": [
+          "kafka:PutClusterPolicy",
+          "kafka:GetClusterPolicy",
+          "kafka:DeleteClusterPolicy"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "MSKSCRAMSecretManagement",
+        "Effect": "Allow",
+        "Action": [
+          "kafka:BatchAssociateScramSecret",
+          "kafka:BatchDisassociateScramSecret",
+          "kafka:ListScramSecrets"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "KMSKeyManagement",
+        "Effect": "Allow",
+        "Action": [
+          "kms:DescribeKey",
+          "kms:ListKeys",
+          "kms:CreateGrant",
+          "kms:ListGrants"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "SecretsManagerManagement",
+        "Effect": "Allow",
+        "Action": [
+          "secretsmanager:DescribeSecret",
+          "secretsmanager:GetSecretValue",
+          "secretsmanager:ListSecrets",
+          "secretsmanager:TagResource",
+          "secretsmanager:UntagResource"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "S3BucketAccess",
+        "Effect": "Allow",
+        "Action": [
+          "s3:GetBucketLocation",
+          "s3:GetBucketAcl",
+          "s3:ListBucket",
+          "s3:PutObject",
+          "s3:GetObject"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "CloudWatchLogsManagement",
+        "Effect": "Allow",
+        "Action": [
+          "logs:CreateLogGroup",
+          "logs:DeleteLogGroup",
+          "logs:DescribeLogGroups",
+          "logs:PutRetentionPolicy",
+          "logs:DeleteRetentionPolicy",
+          "logs:TagLogGroup",
+          "logs:UntagLogGroup",
+          "logs:ListTagsLogGroup",
+          "logs:CreateLogStream",
+          "logs:PutLogEvents",
+          "logs:DescribeLogStreams"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "ApplicationAutoScalingManagement",
+        "Effect": "Allow",
+        "Action": [
+          "application-autoscaling:RegisterScalableTarget",
+          "application-autoscaling:DeregisterScalableTarget",
+          "application-autoscaling:DescribeScalableTargets",
+          "application-autoscaling:PutScalingPolicy",
+          "application-autoscaling:DeleteScalingPolicy",
+          "application-autoscaling:DescribeScalingPolicies",
+          "application-autoscaling:DescribeScalingActivities"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "IAMPassRoleForAutoScaling",
+        "Effect": "Allow",
+        "Action": [
+          "iam:PassRole"
+        ],
+        "Resource": "arn:aws:iam::*:role/aws-service-role/application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_*",
+        "Condition": {
+          "StringEquals": {
+            "iam:PassedToService": "application-autoscaling.amazonaws.com"
+          }
+        }
+      },
+      {
+        "Sid": "GlueSchemaRegistryManagement",
+        "Effect": "Allow",
+        "Action": [
+          "glue:CreateRegistry",
+          "glue:DeleteRegistry",
+          "glue:GetRegistry",
+          "glue:ListRegistries",
+          "glue:UpdateRegistry",
+          "glue:TagResource",
+          "glue:UntagResource",
+          "glue:GetTags",
+          "glue:CreateSchema",
+          "glue:DeleteSchema",
+          "glue:GetSchema",
+          "glue:ListSchemas",
+          "glue:UpdateSchema",
+          "glue:RegisterSchemaVersion",
+          "glue:GetSchemaVersion",
+          "glue:ListSchemaVersions",
+          "glue:GetSchemaByDefinition"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "STSServiceAccess",
+        "Effect": "Allow",
+        "Action": [
+          "sts:GetCallerIdentity"
+        ],
+        "Resource": "*"
+      },
+      {
+        "Sid": "ServiceLinkedRoleManagement",
+        "Effect": "Allow",
+        "Action": [
+          "iam:CreateServiceLinkedRole",
+          "iam:GetRole",
+          "iam:ListRoles"
+        ],
+        "Resource": "*",
+        "Condition": {
+          "StringEquals": {
+            "iam:AWSServiceName": [
+              "application-autoscaling.amazonaws.com",
+              "kafka.amazonaws.com"
+            ]
+          }
+        }
+      }
+    ]
+  }
+  
+  
