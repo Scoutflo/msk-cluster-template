@@ -1,0 +1,19 @@
+# Example terraform.tfvars file
+# Copy this to terraform.tfvars and fill in your actual subnet IDs
+
+# US West 2 (Oregon) - Private Subnet IDs
+# Replace with your actual private subnet IDs from vpc-0910d5a44fb9ec99d
+us_west_2_private_subnet_ids = [
+  "subnet-xxxxxxxxxxxxxxxxx",
+  "subnet-yyyyyyyyyyyyyyyyy",
+  "subnet-zzzzzzzzzzzzzzzzz"
+]
+
+# AP South 2 (Hyderabad) - Private Subnet IDs
+# Replace with your actual private subnet IDs from vpc-0e794b48cb49e3156
+ap_south_2_private_subnet_ids = [
+  "subnet-aaaaaaaaaaaaaaaaa",
+  "subnet-bbbbbbbbbbbbbbbbb",
+  "subnet-ccccccccccccccccc"
+]
+
