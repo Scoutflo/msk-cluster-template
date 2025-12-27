@@ -72,9 +72,9 @@ module "msk_cluster_us_west_2" {
     aws = aws.us_west_2
   }
 
-  name                   = "scoutflo-msk-us-west-2"
+  name                   = "prod-flexprice-msk-us"
   kafka_version          = "3.5.1"
-  number_of_broker_nodes = length(local.us_west_2_private_subnet_ids) >= 3 ? 3 : length(local.us_west_2_private_subnet_ids)
+  number_of_broker_nodes = length(local.us_west_2_private_subnet_ids) >= 2 ? 2 : length(local.us_west_2_private_subnet_ids)
   enhanced_monitoring    = "PER_TOPIC_PER_PARTITION"
 
   broker_node_client_subnets = local.us_west_2_private_subnet_ids
@@ -119,7 +119,10 @@ module "msk_cluster_us_west_2" {
 
   jmx_exporter_enabled    = true
   node_exporter_enabled   = true
-  cloudwatch_logs_enabled = true
+  cloudwatch_logs_enabled = false
+  s3_logs_enabled         = true
+  s3_logs_bucket         = module.s3_logs_bucket_us_west_2.s3_bucket_id
+  s3_logs_prefix         = "msk-logs"
 
   scaling_max_capacity = 512
   scaling_target_value = 80
@@ -128,6 +131,7 @@ module "msk_cluster_us_west_2" {
     Environment = "production"
     Region      = "us-west-2"
     VPC         = "scoutflo-vpc-ziYcAo8t-flexprice-prod"
+    Project     = "scoutflo"
   }
 }
 
@@ -205,9 +209,9 @@ module "msk_cluster_ap_south_1" {
     aws = aws.ap_south_1
   }
 
-  name                   = "scoutflo-msk-ap-south-1"
+  name                   = "prod-flexprice-msk-india"
   kafka_version          = "3.5.1"
-  number_of_broker_nodes = length(local.ap_south_1_private_subnet_ids) >= 3 ? 3 : length(local.ap_south_1_private_subnet_ids)
+  number_of_broker_nodes = length(local.ap_south_1_private_subnet_ids) >= 2 ? 2 : length(local.ap_south_1_private_subnet_ids)
   enhanced_monitoring    = "PER_TOPIC_PER_PARTITION"
 
   broker_node_client_subnets = local.ap_south_1_private_subnet_ids
@@ -252,7 +256,10 @@ module "msk_cluster_ap_south_1" {
 
   jmx_exporter_enabled    = true
   node_exporter_enabled   = true
-  cloudwatch_logs_enabled = true
+  cloudwatch_logs_enabled = false
+  s3_logs_enabled         = true
+  s3_logs_bucket         = module.s3_logs_bucket_ap_south_1.s3_bucket_id
+  s3_logs_prefix         = "msk-logs"
 
   scaling_max_capacity = 512
   scaling_target_value = 80
@@ -261,6 +268,7 @@ module "msk_cluster_ap_south_1" {
     Environment = "production"
     Region      = "ap-south-1"
     VPC         = "prod-flexprice/VPC"
+    Project     = "scoutflo"
   }
 }
 

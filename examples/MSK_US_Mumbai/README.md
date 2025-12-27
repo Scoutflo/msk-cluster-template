@@ -10,10 +10,11 @@ This example creates MSK clusters in two regions:
 - **Instance Type**: `kafka.m7g.large`
 - **Storage**: 100 GB per broker
 - **Kafka Version**: 3.5.1
-- **Broker Nodes**: 3 (for HA/multi-AZ)
+- **Broker Nodes**: 2 (for HA/2-AZ setup - cost optimized)
 - **Monitoring**: Enhanced monitoring enabled (PER_TOPIC_PER_PARTITION)
 - **Authentication**: SASL/IAM
 - **Encryption**: TLS in transit, AWS managed KMS at rest
+- **Logging**: S3 logging enabled (cost optimized)
 
 ### Network Configuration
 - **VPC Connection**: Uses existing VPCs (does not create new VPCs)
@@ -45,11 +46,11 @@ The IAM role/user used for deployment must have permissions as defined in `../..
 
 ## Subnet Discovery
 
-**The configuration automatically selects the 3 private subnets from your 6 total subnets (3 private + 3 public).**
+**The configuration automatically selects the 2 private subnets from your VPC (2 private subnets minimum required).**
 
 The code filters subnets by checking `map_public_ip_on_launch == false`, which identifies private subnets. Your VPC structure:
-- ✅ **3 Private Subnets** (will be used - one per AZ)
-- ❌ **3 Public Subnets** (will be ignored)
+- ✅ **2 Private Subnets** (will be used - one per AZ for 2-AZ setup)
+- ❌ **Public Subnets** (will be ignored)
 
 ### Find Your Private Subnet IDs
 
@@ -78,14 +79,12 @@ If automatic discovery doesn't work, specify subnet IDs in `terraform.tfvars`:
 ```hcl
 us_west_2_private_subnet_ids = [
   "subnet-xxxxx",
-  "subnet-yyyyy",
-  "subnet-zzzzz"
+  "subnet-yyyyy"
 ]
 
 ap_south_1_private_subnet_ids = [
   "subnet-aaaaa",
-  "subnet-bbbbb",
-  "subnet-ccccc"
+  "subnet-bbbbb"
 ]
 ```
 
@@ -128,9 +127,9 @@ After deployment, you'll get:
 ## Important Notes
 
 ### Subnet Requirements:
-- **3 private subnets** (one per AZ) required
+- **2 private subnets** (one per AZ) required for 2-AZ setup
 - Subnets must be in different availability zones
-- Number of broker nodes must match subnet count
+- Number of broker nodes must match subnet count (2 brokers = 2 subnets)
 
 ### Security:
 - Clusters are **private only** - no public endpoints
@@ -141,7 +140,10 @@ After deployment, you'll get:
 
 - **kafka.m7g.large**: ~$0.30/hour per broker
 - **Storage**: 100 GB EBS per broker
-- Estimated monthly cost: ~$1,316/month for both regions
+- **2-AZ Setup**: 2 brokers per cluster (cost optimized)
+- **S3 Logging**: Enabled (cost optimized vs CloudWatch)
+- Estimated monthly cost: ~$915/month for both regions
+- See `AWS_COST_ANALYSIS.md` for detailed breakdown
 
 ## Production Readiness
 
@@ -149,8 +151,8 @@ This configuration is **production-ready** with:
 - ✅ TLS encryption in transit and at rest
 - ✅ SASL/IAM authentication
 - ✅ Private subnets only (no public access)
-- ✅ Multi-AZ high availability (3 brokers)
-- ✅ Enhanced monitoring and CloudWatch logs
+- ✅ Multi-AZ high availability (2 brokers, 2 AZs)
+- ✅ Enhanced monitoring and S3 logging (cost optimized)
 - ✅ Storage autoscaling enabled
 - ✅ CloudWatch alarms for storage utilization and under-replicated partitions
 - ✅ SNS topic for alerting
@@ -193,19 +195,17 @@ The `monitoring-and-alerts.tf` file includes:
 
 ### S3 Logging Buckets
 - 2 S3 buckets for MSK log storage (one per region)
-- **Note**: Buckets are created but not enabled. To enable, update `main.tf`:
-  ```hcl
-  s3_logs_enabled = true
-  s3_logs_bucket  = module.s3_logs_bucket_us_west_2.s3_bucket_id
-  s3_logs_prefix  = "msk-logs"
-  ```
+- **Status**: ✅ Enabled and configured in `main.tf`
+- **Cost**: ~$0.33/month (vs ~$5.12/month for CloudWatch Logs)
+- Provides cost-effective long-term log storage
 
 ## Cost Analysis
 
 See `AWS_COST_ANALYSIS.md` for detailed cost breakdown:
-- **Current Active Resources**: ~$1,377/month
-- **With All Enhancements**: ~$1,382/month
-- **Annual Cost**: ~$16,525/year
+- **Optimized Configuration**: ~$915/month (2-AZ, S3 logging)
+- **Previous Configuration**: ~$1,377/month (3-AZ, CloudWatch logs)
+- **Monthly Savings**: ~$462/month (33.5% reduction)
+- **Annual Cost**: ~$10,984/year
 
 ## Troubleshooting
 
@@ -214,7 +214,7 @@ See `AWS_COST_ANALYSIS.md` for detailed cost breakdown:
 - Verify subnets have `MapPublicIpOnLaunch = false`
 
 ### Error: "Number of broker nodes must be multiple of subnet count"
-- **Solution**: Ensure you have exactly 3 subnets for 3 brokers (one per AZ)
+- **Solution**: Ensure you have exactly 2 subnets for 2 brokers (one per AZ for 2-AZ setup)
 
 ### Error: "Insufficient permissions"
 - **Solution**: Check `../../IAM/index.json` for required permissions
