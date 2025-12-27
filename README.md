@@ -119,6 +119,13 @@ module "msk_kafka_cluster" {
 
 Examples codified under the [`examples`](https://github.com/terraform-aws-modules/terraform-aws-msk-kafka-cluster/tree/master/examples) are intended to give users references for how to use the module(s) as well as testing/validating changes to the source code of the module. If contributing to the project, please be sure to make any appropriate updates to the relevant examples to allow maintainers to test your changes and to keep the examples up to date for users. Thank you!
 
+### Production Examples
+
+- **[MSK_US_Mumbai](examples/MSK_US_Mumbai)** - Production-ready configuration for deploying MSK clusters in US West 2 and AP South 1 (Mumbai) regions, connecting to existing VPCs with automatic private subnet discovery
+- **[MSK_US_Mumbai_Internal](examples/MSK_US_Mumbai_Internal)** - Internal testing configuration for deploying MSK clusters in US West 2 and AP South 2 (Hyderabad) regions
+
+### Legacy Examples
+
 - [Basic](https://github.com/terraform-aws-modules/terraform-aws-msk-kafka-cluster/tree/master/examples/basic)
 - [Complete](https://github.com/terraform-aws-modules/terraform-aws-msk-kafka-cluster/tree/master/examples/complete)
 - [Connect](https://github.com/terraform-aws-modules/terraform-aws-msk-kafka-cluster/tree/master/examples/connect)

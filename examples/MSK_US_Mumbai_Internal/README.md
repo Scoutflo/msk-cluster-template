@@ -29,6 +29,20 @@ This example creates MSK clusters in two regions for internal testing:
 4. **Existing VPCs** with private subnets
 5. **IAM Permissions** as specified in `../../IAM/index.json`
 
+### Required IAM Permissions
+
+The IAM role/user used for deployment must have permissions as defined in `../../IAM/index.json`, including:
+- MSK cluster management (Create, Update, Delete, Describe)
+- MSK configuration management
+- EC2 permissions (Security Groups, VPC/Subnet read)
+- CloudWatch Logs management
+- Application AutoScaling
+- KMS key management
+- SNS topic management (for alerts)
+- S3 bucket management (for logging)
+
+**Note**: The IAM policy includes all necessary permissions for this deployment. See `../../IAM/index.json` for the complete policy.
+
 ## Subnet Discovery
 
 **The configuration automatically selects the 3 private subnets from your 6 total subnets (3 private + 3 public).**
@@ -138,8 +152,52 @@ This configuration is **production-ready** with:
 - ✅ Multi-AZ high availability (3 brokers)
 - ✅ Enhanced monitoring and CloudWatch logs
 - ✅ Storage autoscaling enabled
+- ✅ CloudWatch alarms for storage utilization and under-replicated partitions
+- ✅ SNS topic for alerting
+- ✅ Customer-managed KMS keys (optional, can use AWS-managed)
+- ✅ S3 logging buckets for long-term log storage
 
-See `production-enhancements.tf` for optional enhancements like CloudWatch alarms, customer-managed KMS keys, and S3 logging.
+## File Structure
+
+```
+MSK_US_Mumbai_Internal/
+├── main.tf                      # Main cluster configuration for both regions
+├── monitoring-and-alerts.tf     # CloudWatch alarms, SNS, KMS keys, S3 logging
+├── variables.tf                 # Input variables for subnet overrides
+├── outputs.tf                   # Cluster outputs (ARNs, bootstrap brokers, etc.)
+├── versions.tf                  # Terraform and provider version requirements
+├── terraform.tfvars.example     # Example variables file
+└── README.md                    # This file
+```
+
+## Monitoring and Alerts
+
+The `monitoring-and-alerts.tf` file includes:
+
+### CloudWatch Alarms (4 alarms)
+- **Storage Utilization Alarms**: Alert when storage exceeds 85% (2 alarms)
+- **Under-Replicated Partitions Alarms**: Alert when partitions are under-replicated (2 alarms)
+
+### SNS Topic
+- **Topic**: `msk-cluster-alerts`
+- **Email Subscription**: Update `your-team@example.com` in `monitoring-and-alerts.tf`
+
+### Customer-Managed KMS Keys (Optional)
+- 2 KMS keys (one per region) with automatic rotation enabled
+- **Note**: Currently using AWS-managed KMS keys. To use customer-managed keys, update `main.tf`:
+  ```hcl
+  encryption_at_rest_kms_key_arn = aws_kms_key.msk_us_west_2.arn
+  encryption_at_rest_kms_key_arn = aws_kms_key.msk_ap_south_2.arn
+  ```
+
+### S3 Logging Buckets
+- 2 S3 buckets for MSK log storage (one per region)
+- **Note**: Buckets are created but not enabled. To enable, update `main.tf`:
+  ```hcl
+  s3_logs_enabled = true
+  s3_logs_bucket  = module.s3_logs_bucket_us_west_2.s3_bucket_id
+  s3_logs_prefix  = "msk-logs"
+  ```
 
 ## Troubleshooting
 
