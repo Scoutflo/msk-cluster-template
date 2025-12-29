@@ -90,10 +90,12 @@ resource "aws_cloudwatch_metric_alarm" "us_west_2_under_replicated" {
 ################################################################################
 
 resource "aws_sns_topic" "msk_alerts" {
-  name = "msk-cluster-alerts"
+  provider = aws.us_west_2
+  name     = "msk-cluster-alerts"
 }
 
 resource "aws_sns_topic_subscription" "msk_alerts_email" {
+  provider  = aws.us_west_2
   topic_arn = aws_sns_topic.msk_alerts.arn
   protocol  = "email"
   endpoint  = "your-team@example.com"
