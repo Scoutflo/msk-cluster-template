@@ -7,6 +7,10 @@ provider "aws" {
   region = "us-west-2"
 }
 
+data "aws_caller_identity" "us_west_2" {
+  provider = aws.us_west_2
+}
+
 data "aws_vpc" "us_west_2" {
   provider = aws.us_west_2
   id       = "vpc-0c75af08774009569"
@@ -133,6 +137,24 @@ module "msk_cluster_us_west_2" {
     VPC         = "scoutflo-vpc-ziYcAo8t-flexprice-prod"
     Project     = "scoutflo"
   }
+
+  create_cluster_policy = true
+  cluster_policy_statements = {
+    allow_kafka_access = {
+      sid    = "AllowKafkaAccess"
+      effect = "Allow"
+      actions = [
+        "kafka:CreateVpcConnection",
+        "kafka:GetBootstrapBrokers",
+        "kafka:DescribeCluster",
+        "kafka:DescribeClusterV2"
+      ]
+      principals = [{
+        type        = "AWS"
+        identifiers = ["arn:aws:iam::${data.aws_caller_identity.us_west_2.account_id}:root"]
+      }]
+    }
+  }
 }
 
 ################################################################################
@@ -142,6 +164,10 @@ module "msk_cluster_us_west_2" {
 provider "aws" {
   alias  = "ap_south_1"
   region = "ap-south-1"
+}
+
+data "aws_caller_identity" "ap_south_1" {
+  provider = aws.ap_south_1
 }
 
 data "aws_vpc" "ap_south_1" {
@@ -269,6 +295,24 @@ module "msk_cluster_ap_south_1" {
     Region      = "ap-south-1"
     VPC         = "prod-flexprice/VPC"
     Project     = "scoutflo"
+  }
+
+  create_cluster_policy = true
+  cluster_policy_statements = {
+    allow_kafka_access = {
+      sid    = "AllowKafkaAccess"
+      effect = "Allow"
+      actions = [
+        "kafka:CreateVpcConnection",
+        "kafka:GetBootstrapBrokers",
+        "kafka:DescribeCluster",
+        "kafka:DescribeClusterV2"
+      ]
+      principals = [{
+        type        = "AWS"
+        identifiers = ["arn:aws:iam::${data.aws_caller_identity.ap_south_1.account_id}:root"]
+      }]
+    }
   }
 }
 
