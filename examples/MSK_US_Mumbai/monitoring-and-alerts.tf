@@ -17,7 +17,7 @@ resource "aws_cloudwatch_metric_alarm" "us_west_2_storage_high" {
   period              = 300
   statistic           = "Average"
   threshold           = 85
-  alarm_description    = "MSK cluster storage utilization is above 85%"
+  alarm_description   = "MSK cluster storage utilization is above 85%"
   alarm_actions       = [aws_sns_topic.msk_alerts.arn]
 
   dimensions = {
@@ -35,7 +35,7 @@ resource "aws_cloudwatch_metric_alarm" "us_west_2_under_replicated" {
   period              = 300
   statistic           = "Sum"
   threshold           = 0
-  alarm_description    = "MSK cluster has under-replicated partitions"
+  alarm_description   = "MSK cluster has under-replicated partitions"
   alarm_actions       = [aws_sns_topic.msk_alerts.arn]
 
   dimensions = {
@@ -57,7 +57,7 @@ resource "aws_cloudwatch_metric_alarm" "ap_south_1_storage_high" {
   period              = 300
   statistic           = "Average"
   threshold           = 85
-  alarm_description    = "MSK cluster storage utilization is above 85%"
+  alarm_description   = "MSK cluster storage utilization is above 85%"
   alarm_actions       = [aws_sns_topic.msk_alerts.arn]
 
   dimensions = {
@@ -75,7 +75,7 @@ resource "aws_cloudwatch_metric_alarm" "ap_south_1_under_replicated" {
   period              = 300
   statistic           = "Sum"
   threshold           = 0
-  alarm_description    = "MSK cluster has under-replicated partitions"
+  alarm_description   = "MSK cluster has under-replicated partitions"
   alarm_actions       = [aws_sns_topic.msk_alerts.arn]
 
   dimensions = {
@@ -102,9 +102,9 @@ resource "aws_sns_topic_subscription" "msk_alerts_email" {
 ################################################################################
 
 resource "aws_kms_key" "msk_us_west_2" {
-  provider            = aws.us_west_2
-  description         = "KMS key for MSK encryption in US West 2"
-  enable_key_rotation = true
+  provider                = aws.us_west_2
+  description             = "KMS key for MSK encryption in US West 2"
+  enable_key_rotation     = true
   deletion_window_in_days = 30
 
   tags = {
@@ -120,9 +120,9 @@ resource "aws_kms_alias" "msk_us_west_2" {
 }
 
 resource "aws_kms_key" "msk_ap_south_1" {
-  provider            = aws.ap_south_1
-  description         = "KMS key for MSK encryption in AP South 1"
-  enable_key_rotation = true
+  provider                = aws.ap_south_1
+  description             = "KMS key for MSK encryption in AP South 1"
+  enable_key_rotation     = true
   deletion_window_in_days = 30
 
   tags = {
@@ -198,4 +198,3 @@ module "s3_logs_bucket_ap_south_1" {
     Purpose     = "MSK-Logs"
   }
 }
-

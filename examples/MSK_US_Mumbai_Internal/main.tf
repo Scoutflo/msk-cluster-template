@@ -77,8 +77,8 @@ module "msk_cluster_us_west_2" {
   number_of_broker_nodes = length(local.us_west_2_private_subnet_ids) >= 3 ? 3 : length(local.us_west_2_private_subnet_ids)
   enhanced_monitoring    = "PER_TOPIC_PER_PARTITION"
 
-  broker_node_client_subnets = local.us_west_2_private_subnet_ids
-  broker_node_instance_type  = "kafka.m7g.large"
+  broker_node_client_subnets  = local.us_west_2_private_subnet_ids
+  broker_node_instance_type   = "kafka.m7g.large"
   broker_node_security_groups = [aws_security_group.us_west_2_msk.id]
 
   broker_node_connectivity_info = {
@@ -210,8 +210,8 @@ module "msk_cluster_ap_south_2" {
   number_of_broker_nodes = length(local.ap_south_2_private_subnet_ids) >= 3 ? 3 : length(local.ap_south_2_private_subnet_ids)
   enhanced_monitoring    = "PER_TOPIC_PER_PARTITION"
 
-  broker_node_client_subnets = local.ap_south_2_private_subnet_ids
-  broker_node_instance_type  = "kafka.m7g.large"
+  broker_node_client_subnets  = local.ap_south_2_private_subnet_ids
+  broker_node_instance_type   = "kafka.m7g.large"
   broker_node_security_groups = [aws_security_group.ap_south_2_msk.id]
 
   broker_node_connectivity_info = {
@@ -263,4 +263,3 @@ module "msk_cluster_ap_south_2" {
     VPC         = "internal-testing"
   }
 }
-

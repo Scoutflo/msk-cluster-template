@@ -2,9 +2,9 @@
 
 ## 📊 **Complete Cost Breakdown - Cost Optimized Configuration**
 
-**Date**: 2025-12-26  
-**Configuration**: `examples/MSK_US_Mumbai`  
-**Regions**: US West 2 (Oregon) & AP South 1 (Mumbai)  
+**Date**: 2025-12-26
+**Configuration**: `examples/MSK_US_Mumbai`
+**Regions**: US West 2 (Oregon) & AP South 1 (Mumbai)
 **Optimizations**: 2-AZ setup, S3 logging instead of CloudWatch
 
 ---

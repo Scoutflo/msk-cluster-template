@@ -81,8 +81,8 @@ module "msk_cluster_us_west_2" {
   number_of_broker_nodes = length(local.us_west_2_private_subnet_ids) >= 2 ? 2 : length(local.us_west_2_private_subnet_ids)
   enhanced_monitoring    = "PER_TOPIC_PER_PARTITION"
 
-  broker_node_client_subnets = local.us_west_2_private_subnet_ids
-  broker_node_instance_type  = "kafka.m7g.large"
+  broker_node_client_subnets  = local.us_west_2_private_subnet_ids
+  broker_node_instance_type   = "kafka.m7g.large"
   broker_node_security_groups = [aws_security_group.us_west_2_msk.id]
 
   broker_node_connectivity_info = {
@@ -125,8 +125,8 @@ module "msk_cluster_us_west_2" {
   node_exporter_enabled   = true
   cloudwatch_logs_enabled = false
   s3_logs_enabled         = true
-  s3_logs_bucket         = module.s3_logs_bucket_us_west_2.s3_bucket_id
-  s3_logs_prefix         = "msk-logs"
+  s3_logs_bucket          = module.s3_logs_bucket_us_west_2.s3_bucket_id
+  s3_logs_prefix          = "msk-logs"
 
   scaling_max_capacity = 512
   scaling_target_value = 80
@@ -240,8 +240,8 @@ module "msk_cluster_ap_south_1" {
   number_of_broker_nodes = length(local.ap_south_1_private_subnet_ids) >= 2 ? 2 : length(local.ap_south_1_private_subnet_ids)
   enhanced_monitoring    = "PER_TOPIC_PER_PARTITION"
 
-  broker_node_client_subnets = local.ap_south_1_private_subnet_ids
-  broker_node_instance_type  = "kafka.m7g.large"
+  broker_node_client_subnets  = local.ap_south_1_private_subnet_ids
+  broker_node_instance_type   = "kafka.m7g.large"
   broker_node_security_groups = [aws_security_group.ap_south_1_msk.id]
 
   broker_node_connectivity_info = {
@@ -284,8 +284,8 @@ module "msk_cluster_ap_south_1" {
   node_exporter_enabled   = true
   cloudwatch_logs_enabled = false
   s3_logs_enabled         = true
-  s3_logs_bucket         = module.s3_logs_bucket_ap_south_1.s3_bucket_id
-  s3_logs_prefix         = "msk-logs"
+  s3_logs_bucket          = module.s3_logs_bucket_ap_south_1.s3_bucket_id
+  s3_logs_prefix          = "msk-logs"
 
   scaling_max_capacity = 512
   scaling_target_value = 80
@@ -315,4 +315,3 @@ module "msk_cluster_ap_south_1" {
     }
   }
 }
-
