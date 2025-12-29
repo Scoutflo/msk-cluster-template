@@ -9,7 +9,7 @@ This example creates MSK clusters in two regions:
 ### Cluster Specifications
 - **Instance Type**: `kafka.m7g.large`
 - **Storage**: 100 GB per broker
-- **Kafka Version**: 3.8.1
+- **Kafka Version**: 3.8.x
 - **Broker Nodes**: 2 (for HA/2-AZ setup - cost optimized)
 - **Monitoring**: Enhanced monitoring enabled (PER_TOPIC_PER_PARTITION)
 - **Authentication**: SASL/IAM
