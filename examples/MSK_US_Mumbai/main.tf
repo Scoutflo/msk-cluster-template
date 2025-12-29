@@ -31,9 +31,9 @@ data "aws_subnet" "us_west_2_all" {
 }
 
 locals {
-  us_west_2_private_subnet_ids = length(var.us_west_2_private_subnet_ids) > 0 ? var.us_west_2_private_subnet_ids : [
+  us_west_2_private_subnet_ids = length(var.us_west_2_private_subnet_ids) > 0 ? var.us_west_2_private_subnet_ids : slice([
     for s in data.aws_subnet.us_west_2_all : s.id if s.map_public_ip_on_launch == false
-  ]
+  ], 0, 2)
 }
 
 resource "aws_security_group" "us_west_2_msk" {
