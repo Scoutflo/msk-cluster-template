@@ -77,7 +77,7 @@ module "msk_cluster_us_west_2" {
   }
 
   name                   = "prod-flexprice-msk-us"
-  kafka_version          = "3.5.1"
+  kafka_version          = "3.8.0"
   number_of_broker_nodes = length(local.us_west_2_private_subnet_ids) >= 2 ? 2 : length(local.us_west_2_private_subnet_ids)
   enhanced_monitoring    = "PER_TOPIC_PER_PARTITION"
 
@@ -238,7 +238,7 @@ module "msk_cluster_us_west_2" {
 #   }
 
 #   name                   = "prod-flexprice-msk-india"
-#   kafka_version          = "3.5.1"
+#   kafka_version          = "3.8.0"
 #   number_of_broker_nodes = length(local.ap_south_1_private_subnet_ids) >= 2 ? 2 : length(local.ap_south_1_private_subnet_ids)
 #   enhanced_monitoring    = "PER_TOPIC_PER_PARTITION"
 
