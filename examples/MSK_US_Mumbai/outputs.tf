@@ -31,32 +31,34 @@ output "us_west_2_cluster_uuid" {
 
 ################################################################################
 # AP South 1 Outputs
+# COMMENTED OUT: Waiting for ec2:DescribeVpcs permission in ap-south-1 region
+# Uncomment this section once permissions are added
 ################################################################################
 
-output "ap_south_1_cluster_arn" {
-  description = "ARN of the MSK cluster in AP South 1"
-  value       = module.msk_cluster_ap_south_1.arn
-}
+# output "ap_south_1_cluster_arn" {
+#   description = "ARN of the MSK cluster in AP South 1"
+#   value       = module.msk_cluster_ap_south_1.arn
+# }
 
-output "ap_south_1_bootstrap_brokers_tls" {
-  description = "TLS bootstrap brokers for AP South 1 cluster"
-  value       = module.msk_cluster_ap_south_1.bootstrap_brokers_tls
-  sensitive   = true
-}
+# output "ap_south_1_bootstrap_brokers_tls" {
+#   description = "TLS bootstrap brokers for AP South 1 cluster"
+#   value       = module.msk_cluster_ap_south_1.bootstrap_brokers_tls
+#   sensitive   = true
+# }
 
-output "ap_south_1_bootstrap_brokers_sasl_iam" {
-  description = "SASL IAM bootstrap brokers for AP South 1 cluster"
-  value       = module.msk_cluster_ap_south_1.bootstrap_brokers_sasl_iam
-  sensitive   = true
-}
+# output "ap_south_1_bootstrap_brokers_sasl_iam" {
+#   description = "SASL IAM bootstrap brokers for AP South 1 cluster"
+#   value       = module.msk_cluster_ap_south_1.bootstrap_brokers_sasl_iam
+#   sensitive   = true
+# }
 
-output "ap_south_1_cluster_name" {
-  description = "Name of the MSK cluster in AP South 1"
-  value       = module.msk_cluster_ap_south_1.cluster_name
-}
+# output "ap_south_1_cluster_name" {
+#   description = "Name of the MSK cluster in AP South 1"
+#   value       = module.msk_cluster_ap_south_1.cluster_name
+# }
 
-output "ap_south_1_cluster_uuid" {
-  description = "UUID of the MSK cluster in AP South 1"
-  value       = module.msk_cluster_ap_south_1.cluster_uuid
-}
+# output "ap_south_1_cluster_uuid" {
+#   description = "UUID of the MSK cluster in AP South 1"
+#   value       = module.msk_cluster_ap_south_1.cluster_uuid
+# }
 
